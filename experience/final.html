@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Letter for Naina ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --rose-gold: #e5b1b1;
+            --deep-rose: #ff4d6d;
+            --premium-black: #1a1a1a;
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: radial-gradient(circle at top, #fff5f7 0%, #fce4ec 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+            color: #2d3436;
+            overflow-x: hidden;
+        }
+
+        /* Floating Light Aura */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -10%; left: -10%; width: 40%; height: 40%;
+            background: radial-gradient(circle, rgba(255, 77, 109, 0.05) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 12vw, 6rem);
+            color: var(--deep-rose);
+            margin: 0 0 40px 0;
+            font-weight: 400;
+            animation: fadeIn Down 1.5s ease;
+        }
+
+        /* Premium Letter Box */
+        .letter-box {
+            max-width: 850px;
+            width: 90%;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 60px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.05);
+            position: relative;
+            margin-bottom: 80px;
+        }
+
+        .letter-box::after {
+            content: "♥";
+            position: absolute;
+            bottom: -20px;
+            right: 60px;
+            font-size: 40px;
+            color: var(--deep-rose);
+            opacity: 0.3;
+        }
+
+        #message {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+            line-height: 2;
+            color: #333;
+            font-weight: 400;
+            white-space: pre-wrap;
+        }
+
+        /* Photo Exhibition Style */
+        .gallery-container {
+            width: 100%;
+            max-width: 1000px;
+            position: relative;
+            padding: 20px;
+        }
+
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .gallery-item {
+            width: 280px;
+            height: 380px;
+            background: white;
+            padding: 15px 15px 60px 15px; /* Polaroid Style */
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: rotate(var(--rotation));
+        }
+
+        .gallery-item:hover {
+            transform: rotate(0deg) translateY(-20px) scale(1.05);
+            z-index: 10;
+            box-shadow: 0 30px 60px rgba(255, 77, 109, 0.2);
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+            filter: sepia(20%) contrast(1.1);
+        }
+
+        /* Floating Fairy Lights */
+        .light {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff9c4;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #fff9c4, 0 0 30px #ffd700;
+            animation: pulse var(--d) infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.4; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* The "Golden Hour" Button */
+        .btn-premium {
+            margin-top: 80px;
+            padding: 22px 70px;
+            font-size: 1.3rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff4d6d, #ff8fa3, #ffd700);
+            background-size: 200% auto;
+            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.3);
+            transition: 0.5s;
+        }
+
+        .btn-premium:hover {
+            background-position: right center;
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(255, 77, 109, 0.5);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media(max-width: 600px) {
+            .letter-box { padding: 30px; }
+            .gallery-item { width: 90%; height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>A Note for Naina</h1>
+
+    <div class="letter-box">
+        <div id="message"></div>
+    </div>
+
+    <div class="gallery-container">
+        <div id="light-strings"></div>
+        <div class="gallery">
+            <div class="gallery-item" style="--rotation: -3deg"><img src="images/photo1.jpg" alt="Memory 1"></div>
+            <div class="gallery-item" style="--rotation: 2deg"><img src="images/photo2.jpg" alt="Memory 2"></div>
+            <div class="gallery-item" style="--rotation: -1deg"><img src="images/photo3.jpg" alt="Memory 3"></div>
+        </div>
+    </div>
+
+    <button class="btn-premium" onclick="goNext()">
+        Discover the Next Chapter ✨
+    </button>
+
+<script>
+    const text = `The way you’ve been celebrating me lately makes me feel like the luckiest person alive. You treat me with so much warmth, almost like I'm your "baby," and honestly, I've never felt more cherished. ❤️
+
+This little journey is my way of whispering a 'thank you' back to you.
+
+I know these pixels and words are small compared to the ocean of love you give me every day. But I wanted to create a space that is as beautiful and cheerful as you are, just to lead you into your special day.
+
+Every moment with you is my favorite memory in the making. 
+
+I love you, forever and always. ❤️ 
+— Anandu`;
+
+    let i = 0;
+    const messageEl = document.getElementById("message");
+
+    function typeWriter() {
+        if (i < text.length) {
+            messageEl.textContent += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 35);
+        }
+    }
+
+    function createFairyLights() {
+        const container = document.getElementById('light-strings');
+        for (let j = 0; j < 20; j++) {
+            const light = document.createElement('div');
+            light.className = 'light';
+            light.style.left = Math.random() * 100 + '%';
+            light.style.top = Math.random() * 100 + '%';
+            light.style.setProperty('--d', (Math.random() * 2 + 1) + 's');
+            container.appendChild(light);
+        }
+    }
+
+    window.onload = () => {
+        typeWriter();
+        createFairyLights();
+    };
+
+    function goNext() {
+        // Adding a small fade-out effect
+        document.body.style.opacity = '0';
+        document.body.style.transition = '1s';
+        setTimeout(() => {
+            window.location.href = "../countdown.html";
+        }, 1000);
+    }
+</script>
+</body>
+</html>

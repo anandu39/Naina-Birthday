@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Naina ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,700;1,400&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
+            font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, #2c3e50, #000); /* Darker, premium start */
+            text-align: center; overflow: hidden; color: white;
+        }
+        .container { 
+            max-width: 600px; padding: 40px; 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(15px); 
+            border-radius: 40px; 
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+            animation: fadeIn 2s ease; 
+        }
+        h1 { font-family: 'Great Vibes', cursive; font-size: clamp(3rem, 10vw, 5rem); color: #ff758c; margin-bottom: 15px; }
+        .quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: #ffb6c1; margin-bottom: 25px; display: block;}
+        p { font-size: 1.15rem; line-height: 1.8; margin-bottom: 35px; font-weight: 300; letter-spacing: 0.5px; }
+        .btn-group { display: flex; flex-direction: column; gap: 18px; align-items: center; }
+        button { 
+            padding: 18px 45px; border: none; border-radius: 100px; font-size: 1.1rem; 
+            font-weight: 600; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            width: 85%; letter-spacing: 1px;
+        }
+        .btn-main { background: #ff758c; color: white; box-shadow: 0 10px 30px rgba(255, 117, 140, 0.4); }
+        .btn-alt { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.4); }
+        button:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(255, 117, 140, 0.6); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="container" id="content"></div>
+
+    <script>
+        const BIRTHDAY = new Date("March 7, 2026 00:00:00").getTime();
+        const now = new Date().getTime();
+        const container = document.getElementById("content");
+
+        if (now < BIRTHDAY) {
+            container.innerHTML = `
+                <span class="quote">"In every heart, there is a secret room..."</span>
+                <h1>For Naina ❤️</h1>
+                <p>
+                    I have gathered every little thing I love about you and turned it into a story. 
+                    It’s a journey through the moments that made me fall for you. 
+                    <br><br>
+                    The final chapter stays locked until your special day begins. 
+                    Are you ready to see how much you mean to me?
+                </p>
+                <div class="btn-group">
+                    <button class="btn-main" onclick="location.href='experience/index.html'">Start the Journey ✨</button>
+                </div>`;
+        } else {
+            container.innerHTML = `
+                <span class="quote">"The stars aligned the day you were born..."</span>
+                <h1>Happy Birthday, Naina! 🎉</h1>
+                <p>
+                    Today, the world is a little brighter because of you. ❤️
+                    <br><br>
+                    Would you like to walk through the memories we've built, 
+                    or shall we head straight to your birthday surprise?
+                </p>
+                <div class="btn-group">
+                    <button class="btn-main" onclick="location.href='birthday-surprise/index.html'">Open Birthday Surprise 🎁</button>
+                    <button class="btn-alt" onclick="location.href='experience/index.html'">Relive Our Story 💖</button>
+                </div>`;
+        }
+    </script>
+</body>
+</html>

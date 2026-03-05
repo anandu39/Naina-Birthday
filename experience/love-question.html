@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Question ❤️</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;1,600&family=Quicksand:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --rose-gradient: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+            --heart-red: #ff4d6d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--rose-gradient);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .glass-card {
+            z-index: 10;
+            width: 90%;
+            max-width: 550px;
+            padding: 3.5rem 2rem;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 12vw, 5rem);
+            margin-bottom: 10px;
+        }
+
+        .question {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            font-style: italic;
+            margin-bottom: 4rem;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            min-height: 120px;
+        }
+
+        button {
+            padding: 16px 45px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .yes-btn {
+            background: white;
+            color: var(--heart-red);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+        }
+
+        .no-btn {
+            background: var(--heart-red);
+            color: white;
+            position: relative;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        /* Message Popup */
+        #message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            color: var(--heart-red);
+            padding: 2rem 4rem;
+            border-radius: 30px;
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 10vw, 4.5rem);
+            z-index: 100;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .emoji {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="message">I knew it! 😌❤️</div>
+
+    <div class="glass-card" id="card">
+        <h1>Naina ❤️</h1>
+        <p class="question">Do you love your Teddy? 🧸</p>
+        
+        <div class="btn-container">
+            <button class="yes-btn" id="yesBtn">Yes ❤️</button>
+            <button class="no-btn" id="noBtn">No 😜</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const message = document.getElementById('message');
+        const card = document.getElementById('card');
+
+        let yesScale = 1;
+        let moveCount = 0;
+        const funnyTexts = ["No 😜", "Try again! 😂", "Missed me! 🏃‍♂️", "Too slow! 🐢", "Not today! 🙅‍♀️", "Teddy is sad 🥺"];
+
+        // 1. Entrance
+        gsap.from(card, { duration: 1.5, y: 100, opacity: 0, ease: "power4.out" });
+
+        // 2. The "No" Button Funny Evasion Logic
+        const moveNoButton = (e) => {
+            moveCount++;
+
+            // Update text randomly to tease her
+            noBtn.innerText = funnyTexts[Math.floor(Math.random() * funnyTexts.length)];
+
+            // Calculate safe boundaries
+            const padding = 60;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            // "Dash" away effect
+            gsap.to(noBtn, {
+                duration: 0.3,
+                position: 'fixed',
+                left: randomX,
+                top: randomY,
+                ease: "power2.out",
+                onStart: () => {
+                    // Slight shake when it moves
+                    gsap.to(noBtn, { rotation: "random(-15, 15)", duration: 0.1 });
+                }
+            });
+
+            // Make "Yes" button GROW to entice her
+            yesScale += 0.2;
+            gsap.to(yesBtn, { 
+                scale: yesScale, 
+                duration: 0.4, 
+                ease: "back.out(2)" 
+            });
+
+            // After 5 tries, make the "Yes" button pulse aggressively
+            if(moveCount > 5) {
+                gsap.to(yesBtn, { 
+                    boxShadow: "0 0 40px rgba(255, 255, 255, 0.8)",
+                    repeat: -1,
+                    yoyo: true,
+                    duration: 0.5
+                });
+            }
+        };
+
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents clicking on mobile
+            moveNoButton();
+        });
+
+        // 3. Success Logic
+        yesBtn.addEventListener('click', () => {
+            confetti({
+                particleCount: 300,
+                spread: 120,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ffffff', '#ff9a9e', '#a6c1ee']
+            });
+
+            gsap.to(message, { scale: 1, duration: 0.8, ease: "back.out(1.7)" });
+            gsap.to(card, { opacity: 0, scale: 0.8, duration: 0.5, delay: 1 });
+            gsap.to(noBtn, { opacity: 0, duration: 0.3 }); // Make the No button vanish
+
+            setTimeout(() => {
+                window.location.href = "memories.html";
+            }, 3500);
+        });
+
+        // 4. Background Ambience
+        function spawnEmoji() {
+            const el = document.createElement("div");
+            el.className = "emoji";
+            el.innerHTML = ["❤️", "🧸", "✨"][Math.floor(Math.random() * 3)];
+            el.style.left = Math.random() * 100 + "vw";
+            el.style.top = "110vh";
+            el.style.fontSize = Math.random() * 20 + 20 + "px";
+            el.style.opacity = Math.random();
+            document.body.appendChild(el);
+
+            gsap.to(el, {
+                y: "-120vh",
+                x: `random(-100, 100)`,
+                rotation: `random(0, 360)`,
+                duration: Math.random() * 5 + 5,
+                onComplete: () => el.remove()
+            });
+        }
+        setInterval(spawnEmoji, 700);
+    </script>
+</body>
+</html>

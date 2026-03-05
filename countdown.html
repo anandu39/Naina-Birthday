@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Prelude... ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--bg-dark:#0f0c29;
+--bg-gradient:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%);
+--gold:#d4af37;
+--gold-glow:rgba(212,175,55,0.3);
+--glass:rgba(255,255,255,0.05);
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:var(--bg-gradient);
+font-family:'Quicksand',sans-serif;
+overflow:hidden;
+color:#ffffff;
+}
+
+/* rotating glow */
+
+body::before{
+content:"";
+position:absolute;
+width:150%;
+height:150%;
+background:radial-gradient(circle,rgba(48,43,99,0.4) 0%,transparent 70%);
+z-index:0;
+animation:slowRotate 20s linear infinite;
+}
+
+@keyframes slowRotate{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+/* star container */
+
+#particles-container{
+position:absolute;
+width:100%;
+height:100%;
+z-index:1;
+}
+
+.content{
+position:relative;
+z-index:10;
+text-align:center;
+padding:40px;
+max-width:900px;
+transition:all 1s ease;
+}
+
+.pre-title{
+text-transform:uppercase;
+letter-spacing:6px;
+font-size:0.8rem;
+color:var(--gold);
+margin-bottom:15px;
+font-weight:600;
+opacity:0.9;
+}
+
+.title{
+font-family:'Playfair Display',serif;
+font-size:clamp(2rem,6vw,3.5rem);
+margin-bottom:2rem;
+color:#fff;
+line-height:1.2;
+}
+
+.title span{
+font-style:italic;
+display:block;
+font-size:0.5em;
+margin-top:15px;
+color:rgba(255,255,255,0.6);
+letter-spacing:1px;
+}
+
+/* countdown timer */
+
+.timer-container{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:2rem;
+}
+
+.time-block{
+background:var(--glass);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.1);
+padding:30px 20px;
+border-radius:24px;
+min-width:130px;
+text-align:center;
+box-shadow:0 20px 50px rgba(0,0,0,0.3);
+}
+
+.time-block span{
+display:block;
+font-family:'Playfair Display',serif;
+font-size:clamp(2.5rem,5vw,4rem);
+font-weight:700;
+margin-bottom:5px;
+}
+
+.time-block p{
+font-size:0.7rem;
+text-transform:uppercase;
+letter-spacing:3px;
+color:var(--gold);
+}
+
+/* birthday message */
+
+#birthday-message{
+display:none;
+animation:fadeIn 2s ease;
+}
+
+.emotional-note{
+font-family:'Playfair Display',serif;
+font-size:1.4rem;
+line-height:1.8;
+margin-bottom:2.5rem;
+color:rgba(255,255,255,0.9);
+}
+
+/* button */
+
+.btn-start{
+display:inline-block;
+padding:18px 45px;
+background:linear-gradient(45deg,var(--gold),#f3e5ab);
+color:#0f0c29;
+text-decoration:none;
+border-radius:50px;
+font-weight:600;
+letter-spacing:2px;
+text-transform:uppercase;
+transition:.4s;
+box-shadow:0 10px 30px rgba(212,175,55,0.3);
+}
+
+.btn-start:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 40px rgba(212,175,55,0.5);
+}
+
+/* stars */
+
+.star{
+position:absolute;
+background:white;
+border-radius:50%;
+pointer-events:none;
+animation:twinkle var(--duration) infinite ease-in-out;
+}
+
+@keyframes twinkle{
+0%,100%{opacity:0.2;transform:scale(1);}
+50%{opacity:0.8;transform:scale(1.3);}
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:480px){
+
+.time-block{
+min-width:95px;
+padding:20px 10px;
+}
+
+.title{
+font-size:1.8rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="particles-container"></div>
+
+<div class="content">
+
+<!-- COUNTDOWN -->
+
+<div id="countdown-section">
+
+<p class="pre-title">The Prelude to Your Day</p>
+
+<h1 class="title">
+The stars are aligning for you, Naina.
+<span>Something beautiful begins the moment the clock strikes midnight.</span>
+</h1>
+
+<div class="timer-container">
+
+<div class="time-block">
+<span id="days">00</span>
+<p>Days</p>
+</div>
+
+<div class="time-block">
+<span id="hours">00</span>
+<p>Hours</p>
+</div>
+
+<div class="time-block">
+<span id="minutes">00</span>
+<p>Minutes</p>
+</div>
+
+<div class="time-block">
+<span id="seconds">00</span>
+<p>Seconds</p>
+</div>
+
+</div>
+</div>
+
+<!-- BIRTHDAY MESSAGE -->
+
+<div id="birthday-message">
+
+<p class="pre-title">The Wait is Over</p>
+
+<h1 class="title">Happy Birthday, Naina ❤️</h1>
+
+<p class="emotional-note">
+Today the world feels brighter, because this was the day you were born.
+<br><br>
+Somewhere in this vast universe, the stars aligned to bring you into this world,
+and because of that… my life became more beautiful than I ever imagined.
+<br><br>
+This little surprise was made just for you.
+</p>
+
+<a href="../birthday-surprise/index.html" class="btn-start">
+Open Your Birthday Surprise 🎁
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+const BIRTHDAY_DATE="March 7, 2026 00:00:00";
+const REDIRECT_URL="../birthday-surprise/index.html";
+
+const countdownSection=document.getElementById("countdown-section");
+const birthdayMessage=document.getElementById("birthday-message");
+
+let redirectStarted=false;
+
+function updateUI(expired){
+
+if(expired){
+
+countdownSection.style.display="none";
+birthdayMessage.style.display="block";
+
+if(!redirectStarted){
+
+redirectStarted=true;
+
+setTimeout(()=>{
+window.location.href=REDIRECT_URL;
+},6000);
+
+}
+
+}else{
+
+countdownSection.style.display="block";
+birthdayMessage.style.display="none";
+
+}
+
+}
+
+function updateCountdown(){
+
+const target=new Date(BIRTHDAY_DATE).getTime();
+const now=new Date().getTime();
+const diff=target-now;
+
+if(diff<=0){
+
+updateUI(true);
+return;
+
+}
+
+updateUI(false);
+
+const d=Math.floor(diff/(1000*60*60*24));
+const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((diff%(1000*60*60))/(1000*60));
+const s=Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("days").innerText=d.toString().padStart(2,'0');
+document.getElementById("hours").innerText=h.toString().padStart(2,'0');
+document.getElementById("minutes").innerText=m.toString().padStart(2,'0');
+document.getElementById("seconds").innerText=s.toString().padStart(2,'0');
+
+}
+
+function createStarField(){
+
+const container=document.getElementById("particles-container");
+
+for(let i=0;i<80;i++){
+
+const star=document.createElement("div");
+
+star.className="star";
+
+const size=Math.random()*2+1;
+
+star.style.width=size+"px";
+star.style.height=size+"px";
+
+star.style.left=Math.random()*100+"vw";
+star.style.top=Math.random()*100+"vh";
+
+star.style.setProperty("--duration",(Math.random()*3+2)+"s");
+
+container.appendChild(star);
+
+}
+
+}
+
+createStarField();
+
+setInterval(updateCountdown,1000);
+
+updateCountdown();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;600&family=Playfair+Display:ital,wght@0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-pink: #ff5fa2;
+            --accent-purple: #a66cff;
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: #0a0a0a; /* Cinematic dark start */
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background 1.5s ease;
+        }
+
+        /* Dynamic Cinematic Background */
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px) brightness(0.4);
+            transform: scale(1.1);
+            transition: background-image 1.2s ease-in-out;
+            z-index: -2;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 8vw, 5rem);
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 95, 162, 0.5);
+            animation: fadeIn 2s ease;
+        }
+
+        /* Premium Card Styling */
+        #memoryContainer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+            padding-bottom: 150px;
+        }
+
+        .memory-card {
+            position: relative;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 60px 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            max-width: 650px;
+            width: 85%;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .memory-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .memory-card p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #222;
+            margin: 0;
+        }
+
+        /* Fixed Navigation */
+        .nav-wrapper {
+            position: fixed;
+            bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .next-btn {
+            padding: 20px 60px;
+            border: none;
+            border-radius: 100px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--accent-purple), var(--primary-pink));
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(255, 95, 162, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(255, 95, 162, 0.6);
+        }
+
+        .progress-dots {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 10px; height: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--primary-pink);
+            transform: scale(1.5);
+            box-shadow: 0 0 10px var(--primary-pink);
+        }
+
+        .heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(45deg); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-overlay" id="bgOverlay"></div>
+
+<div class="container">
+    <h1>Moments with You ❤️</h1>
+
+    <div id="memoryContainer">
+        </div>
+
+    <div class="nav-wrapper">
+        <button class="next-btn" id="mainBtn" onclick="nextMemory()">
+            Turn the Page... ✨
+        </button>
+        <div class="progress-dots" id="dotsContainer"></div>
+    </div>
+</div>
+
+<script>
+    const memories = [
+        {
+            gif: "images/gif1.gif",
+            text: "The day our paths crossed. I didn’t know it then, but that was the moment my life finally started making sense. You weren't just a new person; you were the missing piece I didn't know I was looking for."
+        },
+        {
+            gif: "images/gif2.gif",
+            text: "Our late-night talks where the world stops existing. I love how we can talk about everything and nothing at the same time. In those quiet hours, your voice is the only melody I ever want to hear."
+        },
+        {
+            gif: "images/gif1.gif",
+            text: "The way you celebrate my wins as if they were your own. Seeing that proud spark in your eyes when I succeed is a greater reward than the success itself. You are my biggest strength and my loudest cheerleader."
+        },
+        {
+            gif: "images/gif2.gif",
+            text: "The simple, quiet realization that I am completely yours. It wasn’t one big event, but a thousand tiny moments—your smile, your kindness, and the way you care for me—that made me realize I never want to let you go."
+        }
+    ];
+
+    let index = 0;
+    const container = document.getElementById("memoryContainer");
+    const bgOverlay = document.getElementById("bgOverlay");
+    const dotsContainer = document.getElementById("dotsContainer");
+    const mainBtn = document.getElementById("mainBtn");
+
+    // Initialize dots
+    memories.forEach((_, i) => {
+        const dot = document.createElement("div");
+        dot.className = `dot ${i === 0 ? 'active' : ''}`;
+        dotsContainer.appendChild(dot);
+    });
+
+    function addMemory() {
+        const memory = memories[index];
+        
+        // Update Background with cinematic transition
+        bgOverlay.style.setProperty('--bg-image', `url(${memory.gif})`);
+        
+        const card = document.createElement("div");
+        card.className = "memory-card";
+        card.innerHTML = `<p>${memory.text}</p>`;
+        container.appendChild(card);
+
+        // Trigger animation
+        setTimeout(() => card.classList.add('active'), 100);
+
+        // Scroll
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Update Dots
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        
+        if (index > 0) mainBtn.innerText = "Keep Walking... 💖";
+    }
+
+    function nextMemory() {
+        if (index < memories.length - 1) {
+            index++;
+            addMemory();
+        } else {
+            mainBtn.innerText = "Into Our Future... 🌸";
+            mainBtn.style.transform = "scale(1.1)";
+            setTimeout(() => {
+                window.location.href = "final.html";
+            }, 1200);
+        }
+    }
+
+    // Initial load
+    window.onload = () => {
+        addMemory();
+        // Start heart rain
+        setInterval(spawnHeart, 600);
+    };
+
+    function spawnHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.color = `hsl(${Math.random() * 30 + 330}, 100%, 70%)`;
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }
+</script>
+
+</body>
+</html>

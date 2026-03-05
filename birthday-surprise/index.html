@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You, Naina ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+:root {
+    --gold: #d4af37;
+    --velvet: #0a0a1a;
+    --soft-white: #f8f9fa;
+    --glass: rgba(255, 255, 255, 0.04);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    background: #000;
+}
+
+body {
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: background 4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* STAR BACKGROUND WITH PARALLAX */
+#star-layer {
+    position: fixed;
+    top: -10%; left: -10%; width: 120%; height: 120%;
+    background-image: 
+        radial-gradient(1px 1px at 20% 30%, white, transparent),
+        radial-gradient(1.5px 1.5px at 50% 50%, rgba(212,175,55,.4), transparent),
+        radial-gradient(1px 1px at 80% 80%, white, transparent),
+        radial-gradient(2px 2px at 10% 90%, white, transparent);
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
+    transition: transform 0.2s ease-out;
+}
+
+#constellationCanvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 3s;
+}
+
+.ambient-glow {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, rgba(48, 43, 99, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 3s;
+    z-index: 1;
+}
+
+/* THE PREMIUM CARD */
+.container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 580px;
+    padding: 50px 30px;
+    text-align: center;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 40px;
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 4.5vw, 1.7rem);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+    color: var(--soft-white);
+}
+
+.name-calligraphy {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(3.5rem, 12vw, 5.5rem);
+    color: var(--gold);
+    display: block;
+    margin: 20px 0;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.name-glow-final {
+    animation: nameGlow 2.5s infinite alternate ease-in-out;
+}
+
+@keyframes nameGlow {
+    from { transform: scale(1); text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+    to { transform: scale(1.05); text-shadow: 0 0 40px rgba(212, 175, 55, 1), 0 0 70px rgba(212, 175, 55, 0.4); }
+}
+
+/* INTERACTIVE ELEMENTS */
+.btn {
+    padding: 18px 50px;
+    border-radius: 100px;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s;
+    overflow: hidden;
+    position: relative;
+}
+
+.btn:hover {
+    background: var(--gold);
+    color: black;
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+    transform: translateY(-3px);
+}
+
+.balloon, .heart {
+    position: absolute;
+    bottom: -150px;
+    pointer-events: none;
+    animation: floatUp linear forwards;
+    z-index: 5;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(0.5); opacity: 0; }
+    15% { opacity: 0.8; }
+    100% { transform: translateY(-120vh) rotate(360deg) scale(1.2); opacity: 0; }
+}
+
+/* CAKE */
+#cake-section { display: none; margin-top: 50px; }
+.cake { font-size: 100px; cursor: pointer; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: inline-block; }
+.cake:hover { transform: scale(1.15) rotate(5deg); }
+#flame { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 35px; opacity: 0; filter: drop-shadow(0 0 15px #ff4500); }
+
+/* MESSAGE BOX */
+#message {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 2.2;
+    margin-top: 35px;
+    white-space: pre-line;
+    color: rgba(255,255,255,0.9);
+}
+
+.replay { margin-top: 50px; font-size: 0.75rem; letter-spacing: 4px; cursor: pointer; opacity: 0.5; transition: 0.3s; }
+.replay:hover { opacity: 1; color: var(--gold); }
+
+.hidden { display: none !important; }
+
+@keyframes shoot {
+    0% { transform: translateX(0) rotate(45deg); opacity: 1; }
+    100% { transform: translateX(150vw) rotate(45deg); opacity: 0; }
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 600px) {
+    .container { padding: 40px 20px; width: 95%; border-radius: 30px; }
+    .premium-text { font-size: 1.25rem; }
+    #message { font-size: 1rem; line-height: 1.9; }
+}
+</style>
+</head>
+<body>
+
+<div id="star-layer"></div>
+<canvas id="constellationCanvas"></canvas>
+<div class="ambient-glow" id="glow"></div>
+<div id="decor-layer"></div>
+
+<div class="container" id="mainContainer">
+    <div id="step1">
+        <p class="premium-text">
+            The universe holds its breath...<br>
+            for a soul that makes life beautiful.
+        </p>
+        <button class="btn" onclick="initiateExperience()">Begin the Journey</button>
+    </div>
+
+    <div id="step2" class="hidden">
+        <p class="premium-text">
+            Every heartbeat needs a rhythm.<br>
+            Let the melody of the stars guide us.
+        </p>
+        <div class="name-calligraphy" style="font-size: 2.5rem; margin-bottom: 30px;">For Naina</div>
+        <button class="btn" onclick="handleDecorate()">Next Chapter</button>
+    </div>
+
+    <div id="finalStage" class="hidden">
+        <p class="premium-text" id="intro-line">The world became brighter today.</p>
+        <span class="name-calligraphy" id="nainaName">Naina</span>
+
+        <div id="cake-section">
+            <div class="cake" onclick="handleCandle()">
+                <span id="flame">🔥</span>
+                🎂
+            </div>
+            <p id="candle-hint" style="margin-top:20px; color:var(--gold); font-size:0.7rem; letter-spacing: 2px; font-weight: 600;">
+                TAP TO LIGHT HER WISH
+            </p>
+        </div>
+
+        <div id="message"></div>
+        <div class="replay hidden" id="replayBtn" onclick="location.reload()">Replay This Moment ✨</div>
+    </div>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const music = document.getElementById("bgMusic");
+const container = document.getElementById("mainContainer");
+let candleLit = false;
+let heartScale = 1;
+let heartDirection = 1;
+
+// PARALLAX EFFECT
+document.addEventListener('mousemove', (e) => {
+    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+    document.getElementById('star-layer').style.transform = `translate(${moveX}px, ${moveY}px)`;
+});
+
+function initiateExperience() {
+    // START MUSIC ON FIRST INTERACTION (Browser Requirement)
+    music.volume = 0;
+    music.play().catch(e => console.log("Music play blocked"));
+    
+    let vol = 0;
+    let fade = setInterval(() => {
+        if (vol < 0.4) {
+            vol += 0.02;
+            music.volume = vol;
+        } else clearInterval(fade);
+    }, 150);
+
+    document.body.style.background = "var(--velvet)";
+    document.getElementById("glow").style.opacity = "1";
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.remove("hidden");
+}
+
+function handleDecorate() {
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("finalStage").classList.remove("hidden");
+    
+    container.style.boxShadow = "0 25px 80px rgba(212, 175, 55, 0.15)";
+    
+    spawnDecor();
+    drawInitialConstellation();
+
+    setTimeout(() => {
+        document.getElementById("cake-section").style.display = "block";
+    }, 3000);
+}
+
+function spawnDecor() {
+    const field = document.getElementById("decor-layer");
+    const icons = ["✨", "💖", "🤍", "🌸"];
+    setInterval(() => {
+        const el = document.createElement("div");
+        el.className = "balloon";
+        el.innerText = icons[Math.floor(Math.random() * icons.length)];
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.fontSize = (Math.random() * 15 + 20) + "px";
+        el.style.animationDuration = (Math.random() * 5 + 7) + "s";
+        field.appendChild(el);
+        setTimeout(() => el.remove(), 8000);
+    }, 800);
+}
+
+function drawInitialConstellation() {
+    const canvas = document.getElementById("constellationCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.opacity = .4;
+
+    for (let i = 0; i < 80; i++) {
+        ctx.beginPath();
+        ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = "white";
+        ctx.fill();
+    }
+}
+
+function handleCandle() {
+    if (candleLit) return;
+    candleLit = true;
+
+    document.getElementById("flame").style.opacity = 1;
+    document.getElementById("candle-hint").classList.add("hidden");
+    document.getElementById("glow").style.background = "radial-gradient(circle, rgba(255, 140, 0, 0.15) 0%, transparent 75%)";
+
+    confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.75 },
+        colors: ["#d4af37", "#ffffff", "#ff9a9e", "#ff4500"]
+    });
+
+    spawnHearts();
+    triggerShootingStars();
+    typeMessage();
+}
+
+function spawnHearts() {
+    setInterval(() => {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = "❤️";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.animationDuration = (Math.random() * 3 + 5) + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 6000);
+    }, 1200);
+}
+
+function triggerShootingStars() {
+    setInterval(() => {
+        const star = document.createElement("div");
+        star.style.cssText = `position:fixed; top:${Math.random() * 40}%; left:-10%; width:150px; height:1px; background:linear-gradient(90deg, white, transparent); transform:rotate(35deg); z-index:5; animation:shoot 2s linear;`;
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2000);
+    }, 5000);
+}
+
+function typeMessage() {
+    // Dim music slightly for reading focus
+    let currentVol = music.volume;
+    let dim = setInterval(() => {
+        if (music.volume > 0.2) music.volume -= 0.01;
+        else clearInterval(dim);
+    }, 100);
+
+    container.style.transform = "scale(1.02)";
+    container.style.borderColor = "rgba(212, 175, 55, 0.4)";
+
+    const text = `Naina,
+
+They say the stars align only once in a lifetime, but I think they aligned the day you were born.
+
+In a world that can often feel loud and grey, you are the soft melody and the vibrant color I never knew I was searching for.
+
+Your kindness, your laughter, and the warmth you carry in your heart make every moment brighter. Today isn't just your birthday; it is a celebration of the beautiful soul you are.
+
+May this year be as radiant as your heart.
+
+Happy Birthday, My Star ❤️`;
+
+    let i = 0;
+    const box = document.getElementById("message");
+
+    function typing() {
+        if (i < text.length) {
+            box.innerHTML += text.charAt(i);
+            i++;
+            // Human-like typing speed
+            let speed = (text.charAt(i-1) === '.' || text.charAt(i-1) === ',') ? 300 : 50;
+            setTimeout(typing, speed);
+            
+            // Auto scroll on mobile
+            if (i % 5 === 0) window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+        } else {
+            fireworksShow();
+            setTimeout(() => {
+                activateHeartFinale();
+            }, 1500);
+        }
+    }
+    typing();
+}
+
+function activateHeartFinale() {
+    document.getElementById("nainaName").classList.add("name-glow-final");
+    document.getElementById("constellationCanvas").style.opacity = 1;
+    
+    // START THE PULSING HEARTBEAT
+    setInterval(() => {
+        heartScale += 0.008 * heartDirection;
+        if (heartScale > 1.1) heartDirection = -1;
+        if (heartScale < 0.92) heartDirection = 1;
+        drawHeartConstellation(heartScale);
+    }, 40);
+
+    document.getElementById("replayBtn").classList.remove("hidden");
+}
+
+function drawHeartConstellation(scaleFactor) {
+    const canvas = document.getElementById("constellationCanvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const baseScale = window.innerWidth < 600 ? 8 : 14;
+    ctx.beginPath();
+    
+    // Heart Math Curve
+    for (let t = 0; t < Math.PI * 2; t += 0.05) {
+        let x = 16 * Math.pow(Math.sin(t), 3);
+        let y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+        
+        let drawX = (canvas.width / 2) + (x * baseScale * scaleFactor);
+        let drawY = (canvas.height / 2.3) - (y * baseScale * scaleFactor);
+
+        if (t === 0) ctx.moveTo(drawX, drawY);
+        else ctx.lineTo(drawX, drawY);
+
+        // Draw individual "Stars" on the heart path
+        ctx.fillStyle = "rgba(212, 175, 55, 0.9)";
+        ctx.fillRect(drawX - 1.5, drawY - 1.5, 3, 3);
+        
+        // Add random twinkling star-dust around the heart
+        if (Math.random() > 0.98) {
+            ctx.fillStyle = "white";
+            ctx.arc(drawX + (Math.random()-0.5)*20, drawY + (Math.random()-0.5)*20, 0.5, 0, Math.PI*2);
+            ctx.fill();
+        }
+    }
+    
+    ctx.strokeStyle = `rgba(212, 175, 55, ${0.1 + (scaleFactor - 0.9) * 0.5})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    // Inner Glow
+    ctx.shadowBlur = 20 * scaleFactor;
+    ctx.shadowColor = "rgba(212, 175, 55, 0.3)";
+}
+
+function fireworksShow() {
+    let duration = 6000;
+    let end = Date.now() + duration;
+    (function frame() {
+        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ["#d4af37", "#ffffff"] });
+        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ["#d4af37", "#ffffff"] });
+        if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+}
+</script>
+</body>
+</html>
